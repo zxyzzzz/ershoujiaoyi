@@ -80,20 +80,8 @@ export default {
       
     },
     func3(){
-      // let params = {
-      //   user_no:sessionStorage.getItem("user_no")
-      // }
-      // axios.post('/user-query',params)
-      // .then( (res)=> {
-      //   if(res.status ==200 && res.data.errorcode==0){
-      //     let data = res.data.data[0];   
-      //     this.user_no = data.user_no;     
-      //     this.user_type = data.user_type;
-      //   }
-      // })
-      // let user_no = sessionStorage.getItem("user_no");
       this.query();
-      console.log(this.user_type)
+      // console.log(this.user_type)
       if(this.user_type){ 
         if(this.user_type==1){
           this.$router.push({path:'/user'})
@@ -104,15 +92,22 @@ export default {
         else{
         this.$message({message: '请登录',type: 'error'});
       }
-        
-      
     },
     func4(){
       let user_no = sessionStorage.getItem("user_no");
-      if(user_no){
-        this.$message({message: '已退出',type: 'success'});
+      if(!user_no){
+        this.$message({message: '请先登录',type: 'error'});
       }else{
-        this.$message({message: '您未登录',type: 'error'});
+        let params = {
+          user_no:sessionStorage.getItem("user_no")
+        }
+        axios.post('/logout',params)
+        .then( (res)=> {
+          if(res.status ==200 && res.data.errorcode==0){
+            this.$message({message: '已退出',type: 'success'});
+            sessionStorage.removeItem("user_no");
+          }
+        })
       }
     },
     denglu(){

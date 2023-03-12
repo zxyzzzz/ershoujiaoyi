@@ -40,12 +40,13 @@ mounted(){
 },
   methods: {
     pass(row) {
+      debugger
       this.$alert('是否确认重置密码？', {
           confirmButtonText: '确定',
           callback: action => {
             let params = {
               "id": row.id,
-              // "user_no":row.user_no
+              "user_no":row.user_no
             }
       console.log(row)
       axios.post('/pass-apl',params)

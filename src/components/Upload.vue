@@ -53,9 +53,20 @@
             </el-form-item>
           </el-aside>
           <el-aside>
-            <input type="file" ref="goodsImg" style="display:none">
-            <el-button @click="selectFile" >选择商品图片</el-button>
-            <img :src="goods_img_url_download" />
+            <!-- <input  type="file" ref="goodsImg" style="display:none"> -->
+            <!-- <el-button @click="selectFile" >选择商品图片</el-button> -->
+            <div class="head_img">
+              <img :src="goods_img_url_download" style="width:200px" />
+            </div>
+            <div class="setting_right" @click.stop="uploadHeadImg">
+            </div>
+            <input
+              type="file"
+              accept="image/*"
+              @change="handleFile"
+              class="hiddenInput"
+              ref="goodsImg"
+            />
           </el-aside>
         </el-container>
         <el-form-item>
@@ -92,16 +103,32 @@ export default {
         {label:"个护美妆",name:"5"},
         {label:"图书教材",name:"6"},
         {label:"交通出行",name:"7"}
-      ]
+      ],
+      goods_img_base64:"",
+      goods_img_url:""
     };
   },
   computed:{
-    head_img_url_download(){
+    goods_img_url_download(){
       // user/book.jpg
+      if(this.goods_img_base64) return this.goods_img_base64;
       return "/download?url=" +this.goods_img_url;
     }
   },
   methods: {
+    uploadHeadImg: function () {
+      this.$el.querySelector(".hiddenInput").click();
+    },
+    handleFile: function (e) {
+      let $target = e.target || e.srcElement;
+      let file = $target.files[0];
+      var reader = new FileReader();
+      reader.onload = (data) => {
+        let res = data.target || data.srcElement;
+        this.goods_img_base64 = res.result;
+      };
+      reader.readAsDataURL(file);
+    },
     selectFile(){
       this.$refs.goodsImg.click();
     },

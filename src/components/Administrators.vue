@@ -37,9 +37,7 @@
             <el-menu-item id="btn" @click="show(11)" :class="index === 11 ? 'active' : ''"
               >商品管理</el-menu-item
             >
-            <el-menu-item id="btn" @click="show(5)" :class="index === 5 ? 'active' : ''"
-              >数据统计</el-menu-item
-            >
+           
           </el-menu>
         </el-aside>
         <el-main class="center" >

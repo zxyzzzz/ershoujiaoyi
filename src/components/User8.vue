@@ -184,6 +184,7 @@ export default {
       radio: "1",
       src: require("../img/touxiang.jpg"),
       head_img_url:"",
+      head_img_base64:"",
       user_name:"",
       user_type:"",
       user_no:"",
@@ -197,6 +198,7 @@ export default {
   computed:{
     head_img_url_download(){
       // user/book.jpg
+      if(this.head_img_base64) return this.head_img_base64;
       return "/download?url=" +this.head_img_url;
     }
   },
@@ -211,7 +213,7 @@ export default {
       var reader = new FileReader();
       reader.onload = (data) => {
         let res = data.target || data.srcElement;
-        this.src = res.result;
+        this.head_img_base64 = res.result;
       };
       reader.readAsDataURL(file);
     },

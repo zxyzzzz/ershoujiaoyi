@@ -47,6 +47,7 @@
 
 <script>
 import axios from "axios";
+import commonUtils from "@/utils/commonUtils.js"
 export default {
   data() {
     return {
@@ -70,7 +71,7 @@ export default {
     async login(){
       let params = {
         "user_no":this.LoginForm.id,
-        "password":this.LoginForm.password,
+        "password":commonUtils.hmacsha1(this.LoginForm.password),
       }
 
       axios.post('/login',params)

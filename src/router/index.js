@@ -11,6 +11,7 @@ import Upload from '../components/Upload'
 import UploadEdit from '../components/UploadEdit'
 import Jiesuan from '../components/Jiesuan'
 import Jiesuan2 from '../components/Jiesuan2'
+import Jiesuan3 from '../components/Jiesuan3'
 import Administrators from '../components/Administrators'
 import Forget from '../components/Forget'
 
@@ -88,6 +89,11 @@ export default new Router({
       path: '/jiesuan2',
       name: 'Jiesuan2',
       component: Jiesuan2
+    },
+    {
+      path: '/jiesuan3',
+      name: 'Jiesuan3',
+      component: Jiesuan3
     },
 
   ]

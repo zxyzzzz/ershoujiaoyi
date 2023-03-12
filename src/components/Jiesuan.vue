@@ -9,7 +9,7 @@
     <p
       style="font-size: 25px;margin-left: 125px;
       color: grey;
-        margin-top: -45px;
+       margin-top: -45px;
       "
     >
       确认订单信息
@@ -18,21 +18,21 @@
       <p style="font-size: 20px; margin-left: 20px">商品信息</p>
       <el-container style="margin-top: 40px">
         <el-aside style="width: 400px">
-          <img style="width: 200px; margin-left: 50px" :src="tableData.img" />
+          <img style="width: 200px; margin-left: 50px" :src="tableData.goods_img_url"  />
         </el-aside>
         <el-main>
           <div class="name">
-            <span class="title">商品名：</span>{{ tableData.name }}
+            <span class="title">商品名：</span>{{ tableData.goods_name }}
           </div>
           <el-divider></el-divider>
           <div style="margin-top: 20px">
-            <span class="title">分类：</span> {{ tableData.classify }}
+            <span class="title">分类：</span> {{ tableData.goods_type }}
           </div>
           <div style="margin-top: 20px">
-            <span class="title">价格：</span>{{ tableData.price }}
+            <span class="title">价格：</span>{{ tableData.goods_price }}
           </div>
           <div style="margin-top: 20px">
-            <span class="title">详细信息：</span>{{ tableData.details }}
+            <span class="title">详细信息：</span>{{ tableData.goods_detail }}
           </div>
         </el-main>
       </el-container>
@@ -90,12 +90,12 @@
         <p style="margin-left: 30px">实付款：</p>
         <p
           style="font-size: 25px;
-            margin-left: 80px;
+          margin-left: 80px;
             color: brown;
             margin-top: -10px;
           "
         >
-          ￥{{ tableData.price }}
+          ￥{{ tableData.goods_price }}
         </p>
       </div>
       <el-button class="submit" type="primary" plain @click="submit">提交订单</el-button>
@@ -157,6 +157,31 @@ export default {
       ],
     };
   },
+  filters:{
+    transformGoods_type(value){
+      if(value=="1"){
+        return "手机电脑";
+      }
+      if(value=="2"){
+        return "运动健身";
+      }
+      if(value=="3"){
+        return "服饰鞋帽";
+      }
+      if(value=="4"){
+        return "生活娱乐";
+      }
+      if(value=="5"){
+        return "个护美妆";
+      }
+      if(value=="6"){
+        return "图书教材";
+      }
+      if(value=="7"){
+        return "交通出行";
+      }
+    },
+  },
   mounted() {
     console.log(this.$route.query);
     this.tableData = this.$route.query.tableData;
@@ -211,6 +236,7 @@ export default {
           "goods_id":this.tableData.id,
           "order_status":"0",
           "receiving_method":this.radio,
+          "id":this.tableData.id
           // "addr_id":,
           // "addr_detail":
         }

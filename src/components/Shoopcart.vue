@@ -33,35 +33,29 @@
         </el-table-column>
         <el-table-column label="封面" width="210">
           <template slot-scope="scope">
-            <img :src="scope.row.img" style="width: auto; height: 100px" />
+            <img :src="`/download?url=${scope.row.goods_img_url}`" style="width: auto; height: 100px" />
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="商品名称" width="260">
+        <el-table-column prop="goods_name" label="商品名称" width="260">
         </el-table-column>
-        <el-table-column prop="price" label="价格" width="170">
+        <el-table-column prop="goods_price" label="价格" width="170">
         </el-table-column>
+        <!-- <el-table-column prop="classify" label="分类" width="0">
+        </el-table-column>
+        <el-table-column prop="details" label="详细信息" width="0">
+        </el-table-column> -->
         <el-table-column label="操作">
-          <template slot-scope="scope">
+          <template slot-scope="{ row }">
             <el-button
               type="info"
               plain
               id="czbtn"
               icon="el-icon-delete"
-              @click="deleteUser(scope.row.$index)"
+              @click="deleteShopcart(row)"
             ></el-button>
           </template>
         </el-table-column>
       </el-table>
-      <!-- <el-pagination style="margin-left:300px;margin-top:40px"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="currentPage"
-        :page-sizes="[5, 10, 20]"
-        :page-size="pagesize"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="tableData.length"
-      >
-      </el-pagination> -->
     </el-card>
     <el-dialog title="商品详情" :visible.sync="scardvisible">
       <shopcart-card v-if="scardvisible" :tableData="goodsdetail" />
@@ -70,6 +64,7 @@
 </template>
 
 <script>
+ import axios from "axios";
 import Head from "./Head.vue";
 import ShopcartCard from "./ShopcartCard.vue";
 
@@ -82,51 +77,14 @@ export default {
       moneylisttotal: 0,
       scardvisible: false,
       tableData: [
-        {
-          img: require("../img/yule2.jpg"),
-          name: "圆号",
-          price: "788",
-          classify: "生活娱乐",
-          details: "九成新圆号一把，一折价处理",
-          id:"6"
-        },
-        
-        {
-          img: require("../img/meizhuang2.jpg"),
-          name: "雅诗兰黛小棕瓶",
-          price: "520",
-          classify: "个护美妆",
-          details:
-            "雅诗兰黛小棕瓶100ML，全新未拆 购于免税店，两瓶套装。现在出一瓶。 100%正品",
-            id:"9"
-        },
-        {
-          img: require("../img/shouji1.jpg"),
-          name: "iPhone12 128G",
-          price: "2500",
-          classify: "手机电脑",
-          details:
-            "iPhone12 128G 白色 国行双卡,全网通,二手原装,无拆修,99新外观很新,配件齐全,支持七天无理由退换,保修一年 ",
-            id:"10"
-        },
-        {
-          img: require("../img/traffic1.jpg"),
-          name: "美利达领航300",
-          price: "998 ",
-          details:
-            "美利达领航者300，全车原版，前叉减震，前后双碟刹，禧玛诺变速器，前后快拆轮毂。26圈，16寸车架，适合160cm到180cm人群骑行",
-          classify: "交通出行",
-          id:"11"
-        },
       ],
       goodsdetail:{},
       multipleSelection: [],
-      currentPage: 1, //初始页
-      pagesize: 5, //    每页的数据
     };
   },
   mounted() {
     // this.$eventBus.on("changeMsg", this.getMsg);
+    this.query();
     console.log(this.$route.query);
     this.tableData.push(this.$route.query.tableData)  ;
     
@@ -137,36 +95,61 @@ export default {
     console.log(this.tableData+"222")
   },
   methods: {
+    query(){
+      let params = {
+        user_no:sessionStorage.getItem("user_no")
+      };
+      axios.post('/query-shoppingcart',params)
+      .then( (res)=> {
+        if(res.status ==200 && res.data.errorcode==0){
+          this.tableData = res.data.data;
+        }else{
+          this.$message({
+            message: res.data.message,
+            type: 'error'
+          });
+        }
+      })
+        },
     handleDetail(row) {
       this.scardvisible = true; // 打开“卡券详情”对话框
       this.goodsdetail = row; // 把对应行数据赋值给data里的detailData
       console.log(this.goodsdetail+"111")
     },
-    // // 初始页currentPage、初始每页数据数pagesize和数据data
-    // handleSizeChange: function (size) {
-    //   this.pagesize = size;
-    //   console.log(this.pagesize); //每页下拉显示数据
-    // },
-    // handleCurrentChange: function (currentPage) {
-    //   this.currentPage = currentPage;
-    //   console.log(this.currentPage); //点击第几页
-    // },
-    handleUserList() {
-      this.userList = tableData;
-    },
+    
     getMsg(msg) {
       this.Bmsg = msg;
       console.log(msg);
     },
-    deleteUser(index) {
-      this.tableData.splice(index, 1);
+    deleteShopcart(row) {
+      this.$confirm('是否确认删除该商品', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let params = {
+              "id": row.id,
+            }
+      axios.post('/delete-shoppingcart',params)
+        .then(res =>{
+          if (res.status == 200 && res.data.errorcode == 0) {
+            this.query();
+            this.$message({message: '删除成功',type: 'success'});
+          }
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        });
     },
   
     handleSelectionChange(val) {
       this.multipleSelection = val;
       console.log(this.multipleSelection);
       this.moneylist = this.$refs.multipleTable.selection.map(
-        (item) => item.price
+        (item) => item.goods_price
       );
       // 计算总金额moneylisttotal
       // 如果moneylist.length的长度大于0 那么就return pre + cur;

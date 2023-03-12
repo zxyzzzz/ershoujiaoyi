@@ -9,7 +9,7 @@
     <p
       style="
     font-size: 25px;
-        margin-left: 125px;
+      margin-left: 125px;
         color: grey;
         margin-top: -45px;
       "
@@ -24,21 +24,21 @@
         style="margin-top: 40px"
       >
         <el-aside style="width: 400px">
-          <img style="width: 200px; margin-left: 50px" :src="item.img" />
+          <img style="width: 200px; margin-left: 50px" :src="`/download?url=${item.goods_img_url}`"  />
         </el-aside>
         <el-main>
           <div class="name">
-            <span class="title">商品名：</span>{{ item.name }}
+            <span class="title">商品名：</span>{{ item.goods_name }}
           </div>
           <el-divider></el-divider>
           <div style="margin-top: 10px">
-            <span class="title">分类：</span> {{ item.classify }}
+            <span class="title">分类：</span> {{ item.goods_type|transformGoods_type }}
           </div>
           <div style="margin-top: 10px">
-            <span class="title">价格：</span>{{ item.price }}
+            <span class="title">价格：</span>{{ item.goods_price }}
           </div>
           <div style="margin-top: 10px">
-            <span class="title">详细信息：</span>{{ item.details }}
+            <span class="title">详细信息：</span>{{ item.goods_detail }}
           </div>
         </el-main>
       </el-container>
@@ -89,7 +89,7 @@
       <p style="font-size: 20px; margin-left: 20px">付款方式:</p>
       <div
         style="width: 250px;
-          height: 100px;
+           height: 100px;
           border: 1px solid brown;
           margin-left: 700px;"
       >
@@ -153,6 +153,31 @@ export default {
       price:''
     };
   },
+  filters:{
+    transformGoods_type(value){
+      if(value=="1"){
+        return "手机电脑";
+      }
+      if(value=="2"){
+        return "运动健身";
+      }
+      if(value=="3"){
+        return "服饰鞋帽";
+      }
+      if(value=="4"){
+        return "生活娱乐";
+      }
+      if(value=="5"){
+        return "个护美妆";
+      }
+      if(value=="6"){
+        return "图书教材";
+      }
+      if(value=="7"){
+        return "交通出行";
+      }
+    },
+  },
   mounted() {
     console.log(this.$route.query);
     this.tableData = this.$route.query.tableData;
@@ -207,7 +232,7 @@ export default {
         let item = this.tableData[i];
         let params = {
           "user_no":sessionStorage.getItem("user_no"),
-          "goods_id":item.id,
+          "goods_id":item.goods_id,
           "order_status":"0",
           "receiving_method":this.radio,
           // "addr_id":,

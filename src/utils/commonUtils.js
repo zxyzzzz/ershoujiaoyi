@@ -1,5 +1,5 @@
 import axios from "axios";
-
+import hmacsha1 from 'crypto-js/hmac-sha1';
 export default{
     async upload(file,dir){
         if(!file) return;
@@ -16,5 +16,9 @@ export default{
             return res.data.data.url;
         }
     },
+
+    hmacsha1(content="",privateKey="123456"){
+      return hmacsha1(content, privateKey).toString()
+    }
     
 }

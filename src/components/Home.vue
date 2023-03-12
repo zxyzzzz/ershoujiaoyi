@@ -696,11 +696,11 @@ export default {
               let item = this.goodsTypes.find(v1=>v1.name==v.goods_type);
               return {
                 id:v.id,
-                img:`/download?url=${v.goods_img_url}`,
-                name:v.goods_name,
-                price:v.goods_price,
-                classify:item.label,
-                details:v.goods_detail,
+                goods_img_url:`/download?url=${v.goods_img_url}`,
+                goods_name:v.goods_name,
+                goods_price:v.goods_price,
+                goods_type:item.label,
+                goods_detail:v.goods_detail,
               }
             });
             // this.$message({message: '查询成功',type: 'success'});
@@ -714,6 +714,12 @@ export default {
       "goods_name": this.input,
       "goods_status":"0"
     }
+    if(!this.input.trim()){
+      params = {
+        "goods_type":"0",
+      }
+    }
+    
     console.log(this.input)
     axios.post('/search-goods',params)
     .then( (res)=> {

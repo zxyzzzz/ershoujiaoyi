@@ -168,8 +168,6 @@ export default {
             message: '操作已取消'
           });          
         });
-      // this.uvisible = true; // 打开“卡券详情”对话框
-      // this.tableData = row; // 把对应行数据赋值给data里的detailData
     },
     query(){
       axios.post('/query-alluser')

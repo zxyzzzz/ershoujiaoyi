@@ -11,6 +11,7 @@
         :label-position="labelPosition"
         label-width="120px"
         style="margin-left: 30px"
+        :rules="rules"
       >
         <el-form-item  label="头像">
           <el-upload
@@ -34,21 +35,18 @@
         <el-form-item
           label="用户名"
           prop="name"
-          :rules="[{ required: true, message: '用户名不能为空' }]"
         >
           <el-input style="width: 250px" v-model="LoginForm.name"></el-input>
         </el-form-item>
         <el-form-item
           label="学号"
           prop="id"
-          :rules="[{ required: true, message: '学号不能为空' }]"
         >
           <el-input style="width: 250px" v-model="LoginForm.id"></el-input>
         </el-form-item>
         <el-form-item
           label="密码"
           prop="password"
-          :rules="[{ required: true, message: '密码不能为空' }]"
         >
           <el-input
             style="width: 250px"
@@ -60,7 +58,6 @@
         <el-form-item
           label="电话号码"
           prop="tel"
-          :rules="[{ required: true, message: '电话号码不能为空' }]"
         >
           <el-input
             style="width: 250px"
@@ -86,8 +83,41 @@
 
 <script>
 import axios from "axios";
+import commonUtils from "@/utils/commonUtils.js"
 export default {
   data() {
+    let checkTel = function(rule, value, callback){
+      if(!value){
+        callback(new Error('电话号码不能为空...'));
+      }else if(!/^\d{11}$/.test(value)){
+        callback(new Error('电话号码不正确...'));
+      }else{
+        callback();
+      }
+    }
+    let checkId=function(rule, value, callback){
+      if(!value){
+        callback(new Error('学号不能为空...'));
+      }else if(!/^\d{11}$/.test(value)){
+        callback(new Error('学号不正确...'));
+      }else{
+        callback();
+      }
+    }
+    let checkName=function(rule, value, callback){
+      if(!value){
+        callback(new Error('用户名不能为空...'));
+      }else{
+        callback();
+      }
+    }
+    let checkPassword=function(rule, value, callback){
+      if(!value){
+        callback(new Error('密码不能为空...'));
+      }else{
+        callback();
+      }
+    }
     return {
       imageUrl: "",
       labelPosition: "left",
@@ -97,15 +127,29 @@ export default {
         id: "",
         tel: "",
       },
+      rules:{
+        tel:[
+        // { required: true, message: '电话不能为空', trigger: 'blur' },
+          { validator:checkTel, trigger: 'blur' },
+        ],
+        id:[
+          {validator:checkId, trigger: 'blur' }
+        ],
+        name:[
+        {validator:checkName, trigger: 'blur' }
+        ],
+        password:[
+        {validator:checkPassword, trigger: 'blur' }
+        ]
+      }
     };
   },
   methods: {
-    async regist() {
-    
+    async registInner(){
       let params = {
         "user_name":this.LoginForm.name,
         "user_no":this.LoginForm.id,
-        "password":this.LoginForm.password,
+        "password":commonUtils.hmacsha1(this.LoginForm.password),
         "tel":this.LoginForm.tel
       }
       axios.post('/register',params)
@@ -131,6 +175,15 @@ export default {
           });
         //注册失败
       })
+    },
+    async regist() {
+      // console.log(commonUtils.hmacsha1("123456"))
+      // return;
+      this.$refs.LoginForm.validate((valid) => {
+        if (valid) {
+          this.registInner();
+        }
+      });
     },
     close() {
       this.$router.push({ path: "/" });
