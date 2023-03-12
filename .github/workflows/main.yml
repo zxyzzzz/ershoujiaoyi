@@ -1,1 +1,53 @@
 
+name: 发布二手交换平台前端工程
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+env:
+  SERVER_PRIVATE_KEY: ${{ secrets.SERVER_PRIVATE_KEY }} # 服务器私钥
+  SERVER_HOST: ${{ secrets.SERVER_HOST }} # 服务器IP地址
+  USER_NAME: ${{ secrets.USER_NAME }} # 服务器用户名
+  cache-name: note
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@main
+
+      - name: npm install
+        run: |
+          npm install
+        working-directory: ${{github.workspace}}
+
+      - name: npm run build
+        run: |
+          npm run build
+        working-directory: ${{github.workspace}}
+
+      - name: 拷贝到目的服务器
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ env.SERVER_PRIVATE_KEY }}
+          ARGS: '-avz --delete'
+          SOURCE: './dist'
+          REMOTE_HOST: ${{ env.SERVER_HOST }}
+          REMOTE_USER: ${{ env.USER_NAME }}
+          TARGET: /root/egg-web/app/public # 服务器目标路径
+
+      - name: 启动node服务
+        uses: garygrossgarten/github-action-ssh@release
+        with:
+          command: sh /root/egg-web/server.sh
+          host: ${{ secrets.SERVER_HOST }}
+          username: root
+          port: 22
+          privateKey: ${{ secrets.SERVER_PRIVATE_KEY}}
