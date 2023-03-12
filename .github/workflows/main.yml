@@ -41,9 +41,9 @@ jobs:
           SOURCE: './dist'
           REMOTE_HOST: ${{ env.SERVER_HOST }}
           REMOTE_USER: ${{ env.USER_NAME }}
-          TARGET: /root/egg-web/app/public # 服务器目标路径
+          TARGET: /root/sofltware/vue-app-public # 服务器目标路径
 
-      - name: 启动node服务
+      - name: 重启node服务
         uses: garygrossgarten/github-action-ssh@release
         with:
           command: sh /root/egg-web/server.sh
