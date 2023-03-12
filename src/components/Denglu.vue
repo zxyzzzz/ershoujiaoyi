@@ -4,7 +4,7 @@
       <el-button type="primary" class="close" @click="close">
         <i class="el-icon-close"></i>
       </el-button>
-      <p id="title">登录</p>
+      <p id="title">登录1</p>
       <!-- <div class="loginform" style="display:block">
             <div>
                 <input type="text" id="username" placeholder="用户名" 
