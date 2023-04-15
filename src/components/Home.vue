@@ -17,7 +17,7 @@
     <div class="header">
       <div id="SearchForm" style="margin-top: 30px">
         <form id="search_loc">
-          <input type="submit" id="searchbtn" @click="search"  value="点击搜索1" />
+          <input type="submit" id="searchbtn" @click="search"  value="点击搜索" />
           <input type="text" v-model="input" placeholder="请输入搜索关键词" id="keyword" />
           <input
             type="submit"

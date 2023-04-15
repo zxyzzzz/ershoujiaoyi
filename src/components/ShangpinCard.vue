@@ -7,7 +7,7 @@
       <p class="names">{{ this.tableData.goods_name }}</p>
       <p class="prices">{{ this.tableData.goods_price }}</p>
     </div>
-    <el-dialog title="商品详情" :visible.sync="dialogTableVisible1">
+    <el-dialog width="70%" title="商品详情" :visible.sync="dialogTableVisible1">
       <div class="card">
         <el-container style="height: 100%">
           <el-aside width="300px">
