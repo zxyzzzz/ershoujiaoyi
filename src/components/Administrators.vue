@@ -26,7 +26,7 @@
               >收货地址</el-menu-item
             >
             <el-menu-item id="btn" @click="show(3)" :class="index === 3 ? 'active' : ''"
-              >留言板管理</el-menu-item
+              >申请管理</el-menu-item
             >
             <el-menu-item id="btn" @click="show(4)" :class="index === 4 ? 'active' : ''"
               >用户管理</el-menu-item

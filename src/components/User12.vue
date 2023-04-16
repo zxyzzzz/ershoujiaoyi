@@ -8,7 +8,7 @@
     >
       <el-menu-item index="1" id="showbtn" @click="show(1)" :class="index === 1 ? 'active1' : ''" style="background:none">用户留言</el-menu-item>
       <el-menu-item index="2" id="showbtn" @click="show(2)" :class="index === 2 ? 'active1' : ''">用户重置密码申请</el-menu-item>
-      
+      <el-menu-item index="3" id="showbtn" @click="show(3)" :class="index === 3 ? 'active1' : ''">用户付款申请</el-menu-item>
       </el-menu>
       <div class="tab_content">
           <keep-alive>
@@ -21,8 +21,9 @@
 <script>
 import UserLiuyan from './UserLiuyan.vue'
 import UserShenqing from './UserShenqing.vue'
+import UserPayApl from './UserPayApl.vue'
 export default {
-  components:{UserLiuyan,UserShenqing},
+  components:{UserLiuyan,UserShenqing,UserPayApl},
   data(){
     return{
       activeIndex: "1",
@@ -48,6 +49,9 @@ export default {
       }
       if (value === 2) {
         this.comp = "UserShenqing";
+      }
+      if (value === 3) {
+        this.comp = "UserPayApl";
       }
   },
 }
