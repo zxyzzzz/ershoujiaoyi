@@ -6,6 +6,7 @@
       @select="handleSelect"
     >
       <el-menu-item index="1" id="showbtn" @click="show(1)" :class="index === 1 ? 'active1' : ''" style="background:none">全部订单</el-menu-item>
+      <el-menu-item index="4" id="showbtn" @click="show(4)" :class="index === 4 ? 'active1' : ''">待付款</el-menu-item>
       <el-menu-item index="2" id="showbtn" @click="show(2)" :class="index === 2 ? 'active1' : ''">待收货</el-menu-item>
       <el-menu-item index="3" id="showbtn" @click="show(3)" :class="index === 3 ? 'active1' : ''">已收货</el-menu-item>
       <!-- <el-menu-item index="4" id="showbtn" @click="show(4)" :class="index === 4 ? 'active1' : ''">待收货</el-menu-item>

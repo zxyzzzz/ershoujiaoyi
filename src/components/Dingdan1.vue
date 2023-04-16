@@ -56,12 +56,14 @@ export default {
   filters:{
     transformOrder_status(value){
       if(value=="0"){
-        return "待收货";
+        return "待付款";
       }
       if(value=="1"){
+        return "待收货";
+      }
+      if(value=="2"){
         return "已收货";
       }
-      
     },
   },
   mounted(){

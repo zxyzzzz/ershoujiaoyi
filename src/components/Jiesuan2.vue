@@ -86,7 +86,7 @@
         </el-form>
        
       </div>
-      <p style="font-size: 20px; margin-left: 20px">付款方式:</p>
+      
       <div
         style="width: 250px;
            height: 100px;

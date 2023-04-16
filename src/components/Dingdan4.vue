@@ -1,53 +1,139 @@
 <template>
   <div>
+    <!-- 待付款 -->
+    <div class="search">
+      <input style="height:30px;margin-bottom:10px"  type="text" v-model="input"  placeholder="请输入搜索关键词" >
+        <button class="searchbtn">
+          <i @click="search"  class="el-icon-search"></i>
+        </button>
+    </div>
     <el-table :data="tableData" border style="width: 100%">
-      <el-table-column label="操作" width="120px" align="left">
+      <el-table-column label="操作" width="150px" align="left">
         <template slot-scope="{ row }">
           <el-button type="info" plain id="czbtn" @click="handleDetail(row)">
             查看
           </el-button>
         </template>
       </el-table-column>
-      <el-table-column prop="img" label="封面" width="230">
+      <el-table-column prop="img" label="封面" width="270">
         <template slot-scope="scope">
           <img :src="scope.row.img" style="height: 100px" />
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="商品名称" width="255">
+      <el-table-column prop="name" label="商品名称" width="200">
       </el-table-column>
-      <el-table-column prop="price" label="价格" width="170"> </el-table-column>
-      <el-table-column prop="state" label="订单状态" width="160">
+      <el-table-column prop="price" label="价格" width="190"> </el-table-column>
+      <el-table-column  width="145" label="上传付款截图">
+        <template slot-scope="{ row }">
+          <el-button icon="el-icon-plus" type="info" plain id="czbtn" @click="received(row)">
+            
+          </el-button>
+        </template>
       </el-table-column>
     </el-table>
-    <el-dialog title="订单详情" :visible.sync="cardvisible">
-      <dingdan-card-4 v-if="cardvisible" :tableData="tableData"/>
+    <el-dialog title="商品详情" :visible.sync="cardvisible">
+      <dingdan-card-2 v-if="cardvisible" :tableData="tableData"/>
+    </el-dialog>
+    <el-dialog title="上传截图" :visible.sync="cardvisible1">
+      <pay-apl  @update="close" v-if="cardvisible1" :tableData="tableData1" />
+      
     </el-dialog>
   </div>
 </template>
 
 <script>
-import DingdanCard4 from './DingdanCard4.vue';
+import axios from "axios";
+
+import DingdanCard2 from "./DingdanCard2.vue";
+import PayApl from "./PayApl.vue"
 export default {
-  components: {  DingdanCard4 },
+  components: { DingdanCard2 ,PayApl},
   data() {
     return {
+      tableData1:{},
       cardvisible: false,
+      cardvisible1:false,
       tableData: [
-      {
-          img: require("../img/meizhuang5.jpg"),
-          name: "Dior999",
-          price: "￥199",
-          classify:'个护美妆',
-          state:'待收货',
-          details:'全新迪奥Dior烈焰蓝金口红999唇膏专柜同款自贸区直销手续齐全特惠价'  
-        },
       ],
     };
   },
+  filters:{
+    transformOrder_status(value){
+      if(value=="0"){
+        return "待付款";
+      }
+      if(value=="1"){
+        return "待收货";
+      }
+      if(value=="2"){
+        return "已收货";
+      }
+    },
+  },
+  mounted(){
+    this.query();
+  },
   methods: {
+    
+    close(){
+        this.cardvisible1=false
+    },
+    search() {
+    let params = {
+      "goods_name":this.input
+    }
+    console.log(this.input)
+    axios.post('/search-order',params)
+    .then( (res)=> {
+      if(res.status ==200 && res.data.errorcode==0){
+        this.$message({
+          message: '搜索成功',
+          type: 'success'
+        });
+        this.tableData = res.data.data;
+      }else{
+        this.$message({
+          message: '搜索失败'+res.data.message,
+          type: 'error'
+        });
+      }
+    })
+  },
     handleDetail(row) {
       this.cardvisible = true; // 打开“卡券详情”对话框
       this.tableData = row; // 把对应行数据赋值给data里的detailData
+    },
+    received(row) {
+     this.cardvisible1=true;
+     this.tableData1 = row;
+     console.log(this.tableData1)
+    },
+    async query(){
+      let params = {
+        user_no:sessionStorage.getItem("user_no")
+      };
+      axios.post('/query-notpay_order',params)
+      .then( (res)=> {
+        if(res.status ==200 && res.data.errorcode==0){
+
+          this.tableData = res.data.data.map(v=>{
+            return {
+              id:v.id,
+              img:`/download?url=${v.goods_img_url}`,
+              name:v.goods_name,
+              price:v.goods_price,
+              order_status:v.order_status,
+              details:v.goods_detail,
+              classify:v.goods_type,
+            }
+          });
+        }else{
+          this.$message({
+            message: res.data.message,
+            type: 'error'
+          });
+        }
+      })
     },
   },
 };
