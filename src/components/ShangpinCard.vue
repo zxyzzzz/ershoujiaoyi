@@ -7,11 +7,11 @@
       <p class="names">{{ this.tableData.goods_name }}</p>
       <p class="prices">{{ this.tableData.goods_price }}</p>
     </div>
-    <el-dialog width="70%" title="商品详情" :visible.sync="dialogTableVisible1">
+    <el-dialog width="60%" title="商品详情" :visible.sync="dialogTableVisible1">
       <div class="card">
         <el-container style="height: 100%">
           <el-aside width="300px">
-            <el-main><img :src="tableData.goods_img_url" style="width: 210px" /></el-main>
+            <el-main width="320px"><img :src="tableData.goods_img_url" style="width: 210px" /></el-main>
           </el-aside>
           <el-main
             style="
@@ -140,5 +140,8 @@ export default {
 .closec {
   float: right;
   margin-top: -60px;
+}
+.btn{
+  width: 90px;
 }
 </style>
