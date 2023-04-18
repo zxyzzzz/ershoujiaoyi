@@ -18,7 +18,7 @@
           word-break: break-all;
           word-wrap: break-word;
              margin-left: 20px;
-             width: 300px;
+             width: 250px;
             "
           >
             <div class="name">{{ this.tableData.goods_name }}</div>
@@ -148,5 +148,6 @@ export default {
 }
 .btn{
   width: 85px;
+  margin-left: 5px;
 }
 </style>
