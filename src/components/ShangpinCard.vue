@@ -11,13 +11,14 @@
       <div class="card">
         <el-container style="height: 100%">
           <el-aside width="300px">
-            <el-main width="320px"><img :src="tableData.goods_img_url" style="width: 210px" /></el-main>
+            <el-main ><img :src="tableData.goods_img_url" style="width: 210px" /></el-main>
           </el-aside>
           <el-main
             style="
           word-break: break-all;
           word-wrap: break-word;
              margin-left: 20px;
+             width: 300px;
             "
           >
             <div class="name">{{ this.tableData.goods_name }}</div>
