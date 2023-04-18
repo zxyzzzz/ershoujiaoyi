@@ -11,11 +11,11 @@
       </el-table-column>
       <el-table-column prop="area" label="区/县" width="100">
       </el-table-column>
-      <el-table-column prop="detail_addr" label="详细地址" width="215">
+      <el-table-column prop="detail_addr" label="详细地址" width="200">
       </el-table-column>
       <el-table-column prop="tel" label="联系电话" width="150">
       </el-table-column>
-      <el-table-column prop="operation" label="操作" width="170" align="left">
+      <el-table-column prop="operation" label="操作" width="185" align="left">
         <template slot-scope="{ row }">
           <el-button
             type="info"
