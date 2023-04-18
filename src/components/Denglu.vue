@@ -112,10 +112,9 @@ export default {
 #container {
   background: linear-gradient(to bottom right, rgb(93, 176, 119),white);
   width: 100%;
-  height: 100%;
+  height: 800px;
   margin-top: -70px;
   padding-top: 70px;
-  padding-bottom: 50px;
   background-size: 100% 100%;
 }
 .login {
