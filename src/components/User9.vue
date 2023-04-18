@@ -157,6 +157,7 @@ export default {
   color: gray;
   font-size: 15px;
   cursor: pointer;
+  width: 60px;
 }
 
 </style>
