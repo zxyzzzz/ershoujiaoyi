@@ -124,6 +124,10 @@ export default {
 .cards:hover {
   background-color: white;
 }
+.card{
+  margin-left: 10px;
+  margin-right: 10px;
+}
 .imgs {
   height: 190px;
   display: flex;
@@ -142,6 +146,6 @@ export default {
   margin-top: -60px;
 }
 .btn{
-  width: 90px;
+  width: 85px;
 }
 </style>
