@@ -36,6 +36,17 @@
   
   },
     methods: {
+      query(){
+      axios.post('/query-pay-apl')
+      .then( (res)=> {
+        if(res.status ==200 && res.data.errorcode==0){
+          this.tableData = res.data.data;
+          // for (let i = 0; i < this.tableData.length; i++){
+          //   console.log(this.tableData[i].msg_time);
+          // }
+        }
+      })
+    },
       pass(row) {
         debugger
         this.$alert('是否确认通过？', {
@@ -56,17 +67,7 @@
             }
           });
       },
-     query(){
-      axios.post('/query-pay-apl')
-      .then( (res)=> {
-        if(res.status ==200 && res.data.errorcode==0){
-          this.tableData = res.data.data;
-          // for (let i = 0; i < this.tableData.length; i++){
-          //   console.log(this.tableData[i].msg_time);
-          // }
-        }
-      })
-    },
+    
   
   }
   }
