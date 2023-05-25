@@ -116,7 +116,7 @@ export default {
 .cards {
   background-color: rgb(237, 247, 250);
   border-radius: 10px;
-  width: 210px;
+  width: 200px;
   height: 300px;
   float: left;
   margin: 5px;
