@@ -6,7 +6,7 @@
           <span id="name">hi-{{ user_name }}</span></p>
       </div>
       <el-container class="usercenter">
-        <el-aside width="200px" class="left">
+        <el-aside  class="left" >
           <p style="margin-left: 20px; font-size: 15px">全部功能</p>
           <el-menu :default-active="activeIndex">
             <el-menu-item id="btn" @click="show(1)" :class="index === 1 ? 'active' : ''"
