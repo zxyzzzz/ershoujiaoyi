@@ -1,5 +1,5 @@
 <template>
-  <div class="cards">
+  <div class="cards" style="width: 220px">
     <div class="imgs">
       <img id="imgs" :src="tableData.goods_img_url" @click="dialogTableVisible1 = true" />
     </div>
