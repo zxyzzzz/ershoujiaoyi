@@ -182,7 +182,8 @@
     margin-top: 10px;
   }
   .left {
-    margin-left: 50px;
+    margin-left: 5px;
+    width: 130px;
   }
   .user {
     width: 100%;
